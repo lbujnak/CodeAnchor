@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"outDir": "./dist",
+		"strict": true,
+		"skipLibCheck": true,
+		"declaration": true,
+		"declarationMap": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"typeRoots": ["./node_modules/", "./node_modules/@types", "./src/types"],
+		"types": ["vitest/globals"]
+	},
+	"include": ["src/**/*.ts", "_tests_/**/*.ts"]
+}

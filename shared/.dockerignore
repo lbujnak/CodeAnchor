@@ -1,0 +1,6 @@
+# .dockerignore
+_mocks_
+_tests_
+coverage
+dist
+node_modules
