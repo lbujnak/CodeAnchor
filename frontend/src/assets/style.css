@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';
+@import 'primeicons/primeicons.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+@layer primevue {
+    body       { background: var(--p-surface-100); }
+    .dark body { background: var(--p-surface-800); }
+}
+
+button[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.p-toast-message { padding: -0.5rem; }
+.p-toast-message-text { gap: 0.2rem; }
+.p-toast-summary { font-weight: 600; font-size: 0.9rem; }
+.p-toast-detail { font-size: 0.8rem; }
+.p-toast-message-icon { width: 1.2rem; height: 1.2rem; }
+.p-toast-close-button { width: 1.2rem; height: 1.2rem; }
+
+@layer components {
+	.info-text-color { @apply text-surface-600 dark:text-surface-100; }
+
+	.outer-div {
+		@apply bg-surface-50 dark:bg-surface-900;
+	}
+
+	.outer-div-dark {
+		@apply bg-surface-50/80 dark:bg-surface-900/80;
+	}
+
+	.outer-div-hover {
+		@apply hover:bg-surface-100 dark:hover:bg-surface-800;
+	}
+
+	.rounded-div {
+		@apply rounded border border-surface-300 dark:border-surface-700;
+	}
+}
