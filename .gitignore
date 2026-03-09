@@ -1,7 +1,9 @@
 # .gitignore
+.vscode/
 */dist
 */node_modules
 */package-lock.json
 */.env
+*/_build/*
+!*/_build/*.pdf
 poznamky.md
-.vscode/

@@ -1,0 +1,33 @@
+\section{Technologické požiadavky}
+
+\subsection{Client-side}
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{Jazyk}: TypeScript, \textbf{Framework}: Vue 3, \textbf{Routing}: Vue Router \textit{verzia \textasciicircum 4.5.1}
+    \item \textbf{State management}: Pinia \textit{verzia \textasciicircum 3.0.3}
+    \item \textbf{HTTP komunikácia}: Axios \textit{verzia \textasciicircum 1.10.0} (knižnica pre AJAX)
+    \item \textbf{UI / štýly}: PrimeVue \textit{verzia \textasciicircum 4.3.6}, Tailwind CSS \textit{verzia \textasciicircum 4.1.13}
+    \item \textbf{Internacionalizácia}: Vue I18n \textit{verzia \textasciicircum 11.1.9}
+    \item \textbf{Build tool}: Vite \textit{verzia \textasciicircum 7.0.0}
+\end{itemize}
+Zostavenie toolov a frameworku client-side bude podporovať a v priebehu implementácie bude testované na posledných verziách: \textit{Chrome, Firefox, Safari a Edge}.
+
+\subsection{Server-side}
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{Jazyk}: TypeScript, \textbf{Runtime}: Node.js 22, \textbf{Framework}: Express \textit{verzia \textasciicircum 4.21.2}
+    \item \textbf{ORM / databázová vrstva}: Prisma \textit{verzia \textasciicircum 6.16.2}, \textbf{Databáza}: PostgreSQL \textit{verzia 18.0}
+    \item \textbf{Validácia}: Zod \textit{verzia \textasciicircum 4.0.5}, Express Validator \textit{verzia \textasciicircum 7.2.1}
+    \item \textbf{Autentifikácia / bezpečnosť}: bcrypt \textit{verzia \textasciicircum 6.0.0}, cookie-parser \textit{verzia \textasciicircum 1.4.7}, CORS \textit{verzia \textasciicircum 2.8.5}, express-rate-limit \textit{verzia \textasciicircum 7.5.1}
+    \item \textbf{Upload súborov}: Multer \textit{verzia \textasciicircum 1.4.5-lts.2}
+    \item \textbf{Emailová komunikácia}: Nodemailer \textit{verzia \textasciicircum 7.0.5}
+    \item \textbf{Konfigurácia prostredia}: dotenv \textit{verzia \textasciicircum 17.1.0}
+    \item \textbf{Testovanie}: Vitest \textit{verzia \textasciicircum 4.0.18}, Supertest \textit{verzia \textasciicircum 7.1.3}
+\end{itemize}
+
+\subsection{Interface Client-side a Server-side}
+Ako už knižnica \textit{Axios} napovedá, komunikácia bude prebiehať pomocou \textbf{REST API} a \textbf{JSON} formátu. 
+Server bude poskytovať API endpointy pre všetky potrebné operácie (CRUD) nad entitami systému, ako aj autentifikáciu a autorizáciu. 
+Klient bude tieto endpointy využívať na získavanie a manipuláciu s dátami, ktoré následne zobrazí používateľovi.
+
+\subsection{Hosting a deployment}
+Použitý bude súkromný server na adrese \textit{https://codeanchor.eu}, ktorý bude mať continous integration a deployment pipeline nastavenú pomocou GitHub WebHooks.
+Na serveri beží Ubuntu 22.04 LTS s Kubernetesom pre orchestráciu kontajnerov, ktoré budú obsahovať client-side a server-side aplikáciu.

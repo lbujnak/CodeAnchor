@@ -1,0 +1,87 @@
+\documentclass[12pt, oneside]{article}
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage[slovak]{babel} 
+\usepackage{acronym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amsfonts, amsthm}
+\usepackage{xfrac}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{url}
+\usepackage[hidelinks,breaklinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs, longtable}
+\usepackage{array, upquote, caption}
+
+\usepackage{listings}
+\lstdefinestyle{code}{
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color{teal!70!black}\itshape,
+	stringstyle=\color{orange!70!black},
+	showstringspaces=false,
+	columns=fullflexible,
+	tabsize=2,
+	breaklines=true,
+	frame=single,
+	framerule=0.3pt,
+	rulecolor=\color{black!30},
+	upquote=true
+}
+
+\lstdefinelanguage{Anchor}{
+	morekeywords={func,return,var,const,if,else,while,for,switch,case,default,break,continue,true,false,not,and,or,int,bool,char,string,void,new},
+	sensitive=true
+}
+
+\linespread{1.10}
+
+% -------------------
+% --- Definicia zakladnych pojmov
+% -------------------
+\begin{document}     
+    \definecolor{darkgreen}{rgb}{0.0, 0.2, 0.13}
+  	\pagestyle{empty}
+
+% -------------------
+% --- Obalka ------
+% -------------------
+	\begin{center}
+    	\sc\large\text{ }
+		\vfill
+  		\LARGE Špecifikácia privátneho rezervačného systému nehnuteľností
+	\end{center}
+
+	\vfill
+	{\sc\large \noindent \\ Bc. Lukáš Bujňák}
+	\cleardoublepage
+
+% -------------------
+% --- Obsah
+% -------------------
+	\tableofcontents
+
+% -------------------
+% --- Jadro
+% -------------------
+	\pagestyle{plain}
+	
+	\newpage
+	\input chapters/1-intro.tex
+
+    \newpage
+    \input chapters/2-user-requirements.tex
+
+    \newpage
+    \input chapters/3-data-model.tex
+
+	\newpage
+	\input chapters/4-tech-req.tex
+
+	\newpage
+	\input chapters/5-time-plan.tex
+
+	\newpage
+	\input chapters/6-future-work.tex
+\end{document}

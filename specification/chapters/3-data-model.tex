@@ -1,0 +1,116 @@
+\section{Dátový model}
+Z dôvodu rozšíriteľnosti aplikácie zavádzame \textbf{používateľské role} ako \textit{abstraktné entity}, ktoré môžu byť definované pomocou systému oprávnení. 
+Každá rola bude mať priradené určité oprávnenia, ktoré určujú, aké akcie môže používateľ s danou rolou vykonávať v aplikácii. 
+Tento prístup nám umožní flexibilne pridávať nové role a oprávnenia bez nutnosti zásahu do základnej štruktúry systému.
+
+\vspace{1em}\hspace{-2em}
+Všeobecne bude \textit{Nájomca}, \textit{Majiteľ nehnuteľnosti} a \textit{Administrátor} definovaný ako \textbf{User} s príslušnými oprávneniami.
+
+\vspace{1em}\hspace{-2em}
+Dátový model taktiež definuje prácu so súbormi, ktoré môžu byť pripojené k rezerváciám alebo nehnuteľnostiam (zatiaľ iba ako obrázky).
+
+\vspace{1em}\hspace{-2em}
+Entitno-relačný diagram (ERD) znázorňujúci vzťahy medzi entitami v našom systéme:
+\begin{figure}[ht!]\centering\includegraphics[width=\textwidth]{images/dm-er.png}\end{figure}
+
+
+\subsection{Popis entít}
+
+\paragraph{User} \text{ } \newline
+Vyjadruje používateľa systému, ktorý môže byť \textit{Nájomca}, \textit{Majiteľ nehnuteľnosti} alebo \textit{Administrátor}. 
+Obsahuje štandardné atribúty ako \textit{email, name, surname, email, password} a navyše:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{active} - identifikuje, či je daný účet aktivný,
+    \item \textit{updateCounter} - identifikuje počet aktualizácii profilu, ktoré vynútia odhlásenie používateľa a opätovné prihlásenie (napr. zmena hesla) na ostatých zariadeniach.
+\end{itemize}
+
+\paragraph{StoredFile} \text{ } \newline
+Reprezentuje súbor uložený v systéme, ktorý môže byť pripojený k nehnuteľnostiam ako obrázok.
+Obsahuje nasledujúce atribúty:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{mimeType, size a createdAt} - udržiavanie typu, veľkosti súbora a času vytvorenia,
+    \item \textit{filename a path} - jednoznačné identifikátory súbora (v kombinácii UNIQUE),
+    \item \textit{userId, requiredPermId} - foreign kľúče pre identifikáciu vlastníka súboru a potrebného oprávnenia pre prístup k súboru.
+\end{itemize}
+
+\paragraph{Token} \text{ } \newline
+Reprezentuje autentifikačný token, ktorý je používaný pre autentifikáciu a autorizáciu používateľov v systéme. 
+Používa sa napríklad pri zmene hesla alebo aktivácii účtu.
+Obsahuje nasledujúce atribúty:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{createdAt, expiresAt} - čas vytvorenia a expirácie tokenu,
+    \item \textit{token, tokenTypeId, userId} - konkrétna textová reprezentácia tokenu, typ tokenu a foreign kľúč pre identifikáciu vlastníka tokenu.
+\end{itemize}
+Navyše \textit{token, tokenTypeId, userId} sú kombináciou UNIQUE.
+
+\paragraph{TokenType} \text{ } \newline
+Reprezentuje konkrétny typ tokenu, ktorý môže byť použitý, obsahuje atribúty ako:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{name\_i18n} - lokalizovaný názov typu tokenu,
+    \item \textit{validity} - doba platnosti tokenu v sekundách.
+\end{itemize}
+
+\paragraph{Role} \text{ } \newline
+Reprezentuje rolu, ktorá môže mať priradené určité oprávnenia s atribútom \textit{name\_i18n}, ktorý obsahuje lokalizovaný názov role.
+
+\paragraph{UserRole} \text{ } \newline
+Definuje vzťah medzi používateľom a rolou, ktorá určuje, aké oprávnenia má použivateľ v rámci danej role.
+Atribútami sú \textit{userId a roleId}, ktoré sú primary kľúče a zároveň aj foreign kľúčami.
+
+\paragraph{Permission} \text{ } \newline
+Definuje oprávnenie s atribútom \textit{key}, ktorý identifikuje dané oprávnenie.
+
+\paragraph{RolePermission} \text{ } \newline
+Definuje vzťah medzi rolou a oprávnením, ktorý určuje, aké oprávnenia má daná rola.
+Atribútami sú \textit{roleId a permId}, ktoré sú primary kľúče a zároveň aj foreign kľúčami.
+
+\paragraph{Property} \text{ } \newline
+Reprezentuje konkrétnu nehnuteľnost, ktorá môže mať viac variant.
+Obsahuje nasledujúce atribúty:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{address, name\_i18n, overview\_i18n} - adresa, lokalizovaný názov a popis nehnuteľnosti,
+    \item \textit{data} - voliteľné pole pre uloženie ďalších informácií o nehnuteľnosti,
+    \item \textit{active} - identifikuje, či je nehnuteľnosť aktívna (zobrazuje sa),
+    \item \textit{propTypeId} - foreign kľúč pre identifikáciu typu nehnuteľnosti (byt, hotel, atd.).
+\end{itemize}
+
+\paragraph{PropertyType} \text{ } \newline
+Reprezentuje typ nehnuteľnosti, ktorý môže byť použitý pre kategorizáciu nehnuteľností a obsahuje atribút \textit{name\_i18n}, ktorý obsahuje lokalizovaný názov typu nehnuteľnosti.
+
+\paragraph{PropertyVariant} \text{ } \newline
+Reprezentuje variant nehnuteľnosti (izba v hoteli, konkrétny apartmán alebo konkrétny priestor v rámci nehnuteľnosti).
+Obsahuje nasledujúce atribúty:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{label\_18n, description\_18n, amenities\_i18n} - lokalizovaný názov, popis variantu a vybavenia variantu,
+    \item \textit{capacity} - maximálny počet osôb, ktorý môže byť v tomto variante ubytovaných (iba pre "bytové jednotky"),
+    \item \textit{priceRanges} - pole pre uloženie ceny prenájmu vo formáte (od, do, cena),
+    \item \textit{data} - voliteľné pole pre uloženie ďalších informácií o variante,
+    \item \textit{active} - identifikuje, či je tento variant aktivný (zobrazuje sa),
+    \item \textit{variantId, propertyId} - jednoznačná kombinácia čísla variantu (1..*) a foreign kľúca pre identifikáciu nehnuteľnosti, ktorej tento variant patrí.
+\end{itemize}
+
+\paragraph{PropertyImage} \text{ } \newline
+Reprezentuje obrázok pripojený ku konkrétnemu variantu nehnuteľnosti.
+Atribútami sú \textit{propVarId a storedFileId}, ktoré sú primary kľúče a zároveň aj foreign kľúčami.
+
+\paragraph{PropertyBooking} \text{ } \newline
+Reprezentuje konkrétnu rezerváciu variantu nehnuteľnosti konkrétnym používateľom.
+Obsahuje nasledujúce atribúty:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{fromDate, toDate, createdAt} - dátum začiatku a konca rezervácie a dátum vytvorenia rezervácie,
+    \item \textit{statusId} - foreign kľúč identifikujúci stav rezervácie 
+\end{itemize}
+
+\paragraph{PropertyBookingStatus} \text{ } \newline
+Reprezentuje stav rezervácie, ktorý môže byť použitý pre identifikáciu aktuálneho stavu (napr. "potvrdená", "zrušená", ...).
+Obsahuje atribút \textit{name\_i18n}, ktorý obsahuje lokalizovaný názov stavu rezervácie.
+
+\paragraph{PropertyReview} \text{ } \newline
+Reprezentuje recenziu, ktorá môže byť priradená ku už absolvovanej rezervacií variantu nehnuteľnosti.
+Obsahuje následujúce atribúty:
+\begin{itemize}[itemsep=2pt]
+    \item \textit{rating} - hodnotenie variantu nehnuteľnosti v rozsahu 1..5,
+    \item \textit{messages} - json pole pre uloženie správ recenzie medzi nájomcom a majitelom nehnuteľnosti, formát (userId, DateTime, message),
+    \item \textit{createdAt} - dátum vytvorenia recenzie,
+    \item \textit{propBookId} - foreign kľúč pre identifikáciu rezervácie, ku ktorej je recenzie priradená.
+\end{itemize}
